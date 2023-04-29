@@ -15,10 +15,10 @@ export function Intro() {
       <Content>
         <IntroDetails>
           <h1>Encontre o café perfeito para qualquer hora do dia</h1>
-          <h2>
+          <p>
             Com o Coffee Delivery você recebe seu café onde estiver, a qualquer
             hora
-          </h2>
+          </p>
           <IntroItens>
             <li>
               <Item background="yellow-dark">

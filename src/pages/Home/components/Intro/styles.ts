@@ -7,7 +7,7 @@ export const IntroContainer = styled.div`
   background-image: url(${backgroundImage});
   background-repeat: no-repeat;
   background-size: cover;
-  height: 34rem;
+  min-height: 34rem;
   display: flex;
   align-items: center;
 `;
@@ -27,7 +27,7 @@ export const IntroDetails = styled.div`
     color: ${(props) => props.theme["base-title"]};
   }
 
-  h2 {
+  p {
     font-size: 1.25rem;
     font-weight: normal;
     color: ${(props) => props.theme["base-subtitle"]};
