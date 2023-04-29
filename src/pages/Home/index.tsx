@@ -1,3 +1,9 @@
+import { Intro } from "./components/Intro";
+
 export function Home() {
-  return <h1>Coffee Delivery</h1>;
+  return (
+    <>
+      <Intro />
+    </>
+  );
 }

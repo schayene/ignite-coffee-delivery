@@ -38,7 +38,6 @@ export const IconCart = styled.button`
     height: 1.25rem;
     border-radius: 50%;
     font-size: 0.75rem;
-    line-height: 1.3;
     color: ${(props) => props.theme.white};
     background: ${(props) => props.theme["yellow-dark"]};
   }
@@ -46,7 +45,6 @@ export const IconCart = styled.button`
 
 export const Location = styled.div`
   font-size: 0.875rem;
-  line-height: 1.3;
   padding: 0 0.5rem;
   display: flex;
   align-items: center;
