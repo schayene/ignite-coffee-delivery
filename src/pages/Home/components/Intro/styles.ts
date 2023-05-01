@@ -16,6 +16,15 @@ export const Content = styled(Wrapper)`
   display: flex;
   align-items: center;
   gap: 3rem;
+
+  img {
+    width: 100%;
+    max-width: 29rem;
+  }
+
+  @media (max-width: 992px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const IntroDetails = styled.div`
@@ -37,7 +46,7 @@ export const IntroDetails = styled.div`
 export const IntroItens = styled.ul`
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   grid-gap: 1.25rem 2.5rem;
   margin-top: 3rem;
 

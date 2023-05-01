@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const FilterContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 
   span {
@@ -13,5 +14,9 @@ export const FilterContainer = styled.div`
     font-weight: bold;
     border: 1px solid ${(props) => props.theme.yellow};
     color: ${(props) => props.theme["yellow-dark"]};
+
+    &:hover {
+      
+    }
   }
 `;

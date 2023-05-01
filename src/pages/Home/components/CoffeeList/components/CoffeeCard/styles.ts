@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CoffeeCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 
   border-radius: 6px 36px;
   padding: 0 1.25rem 1.25rem;
@@ -12,6 +12,7 @@ export const CoffeeCardContainer = styled.div`
 
   img {
     margin-top: -1.25rem;
+    max-width: 7.5rem;
   }
 
   h3 {
@@ -19,6 +20,7 @@ export const CoffeeCardContainer = styled.div`
     font-size: 1.25rem;
     color: ${(props) => props.theme["base-subtitle"]};
     margin-bottom: 0.5rem;
+    text-align: center;
   }
 
   p {
@@ -26,6 +28,12 @@ export const CoffeeCardContainer = styled.div`
     text-align: center;
     color: ${(props) => props.theme["base-label"]};
   }
+`;
+
+export const CoffeeCardDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const CoffeeTags = styled.div`
@@ -63,48 +71,6 @@ export const CardActions = styled.div`
     cursor: pointer;
     border: 0;
     height: 2.375rem;
-  }
-`;
-
-export const InputQuantity = styled.div`
-  display: flex;
-  width: 4.5rem;
-
-  input {
-    flex: 1;
-    width: 100%;
-    height: 2.375rem;
-    text-align: center;
-
-    border: 0;
-    background: ${(props) => props.theme["base-button"]};
-
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    appearance: textfield;
-
-    &::-webkit-inner-spin-button,
-    &::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-    }
-  }
-
-  button {
-    width: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: ${(props) => props.theme.purple};
-    background: ${(props) => props.theme["base-button"]};
-
-    &:first-child {
-      border-radius: 6px 0 0 6px;
-    }
-
-    &:last-child {
-      border-radius: 0 6px 6px 0;
-    }
   }
 `;
 

@@ -1,13 +1,14 @@
-import { Minus, Plus, ShoppingCartSimple } from "phosphor-react";
+import { ShoppingCartSimple } from "phosphor-react";
 import {
   ButtonCart,
   CardActions,
   CardBuy,
   CoffeeCardContainer,
+  CoffeeCardDetails,
   CoffeeTags,
-  InputQuantity,
 } from "./styles";
 import { Tag, TagType } from "../Tag";
+import { InputQuantity } from "../../../../../../components/InputQuantity";
 
 export interface CoffeeInterface {
   id: string;
@@ -23,33 +24,29 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
-  const priceFormatted = coffee.price.toFixed(2).toString().replace(".", ",");
+  const priceFormatted = coffee.price.toLocaleString("pt-br", {
+    minimumFractionDigits: 2,
+  });
 
   return (
     <CoffeeCardContainer>
-      <img src={coffee.image} />
-      <CoffeeTags>
-        {coffee.tags.map((tag) => (
-          <Tag key={tag.name} name={tag.name} />
-        ))}
-      </CoffeeTags>
-      <h3>{coffee.name}</h3>
-      <p>{coffee.description}</p>
+      <CoffeeCardDetails>
+        <img src={coffee.image} />
+        <CoffeeTags>
+          {coffee.tags.map((tag) => (
+            <Tag key={tag.name} name={tag.name} />
+          ))}
+        </CoffeeTags>
+        <h3>{coffee.name}</h3>
+        <p>{coffee.description}</p>
+      </CoffeeCardDetails>
       <CardBuy>
         <span>
           <small>R$</small> {priceFormatted}
         </span>
 
         <CardActions>
-          <InputQuantity>
-            <button type="button">
-              <Minus size={14} weight="bold" />
-            </button>
-            <input type="number" defaultValue={1} step={1} min={1} />
-            <button type="button">
-              <Plus size={14} weight="bold" />
-            </button>
-          </InputQuantity>
+          <InputQuantity />
           <ButtonCart type="button">
             <ShoppingCartSimple size={22} weight="fill" />
           </ButtonCart>
