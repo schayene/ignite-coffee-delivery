@@ -5,6 +5,8 @@ export const CheckoutContainer = styled(Wrapper)`
   display: flex;
   gap: 2rem;
 
+  padding-block: 2.5rem;
+
   h2 {
     font-family: "Baloo 2", sans-serif;
     font-size: 1.125rem;

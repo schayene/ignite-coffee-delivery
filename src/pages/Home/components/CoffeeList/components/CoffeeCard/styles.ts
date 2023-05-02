@@ -77,6 +77,11 @@ export const CardActions = styled.div`
 export const ButtonCart = styled.button`
   width: 2.375rem;
   border-radius: 6px;
+  transition: background 0.1s;
   color: ${(props) => props.theme["base-card"]};
   background: ${(props) => props.theme["purple-dark"]};
+
+  &:hover {
+    background: ${(props) => props.theme.purple};
+  }
 `;

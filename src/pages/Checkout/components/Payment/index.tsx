@@ -19,7 +19,7 @@ export function Payment() {
         </div>
       </CardHeader>
       <PaymentForm>
-        <ButtonPaymentType type="button">
+        <ButtonPaymentType type="button" className="active">
           <input hidden type="radio" id="credit_card" />
           <label htmlFor="credit_card">
             <CreditCard size={16} />
