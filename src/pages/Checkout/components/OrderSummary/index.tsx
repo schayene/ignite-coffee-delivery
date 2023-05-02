@@ -1,5 +1,6 @@
 import { ConfirmOrderButton, OrderSummaryContainer } from "./styles";
 import { CartItem, CartItemType } from "../../../../components/cart/CartItem";
+import { useNavigate } from "react-router-dom";
 
 import expressoTradicional from "../../../../assets/expresso-tradicional.png";
 import latte from "../../../../assets/latte.png";
@@ -22,6 +23,12 @@ const cartItems: CartItemType[] = [
 ];
 
 export function OrderSummary() {
+  const navigate = useNavigate();
+
+  function handleNavigateToCompletedOrderPage() {
+    navigate("/success");
+  }
+
   return (
     <OrderSummaryContainer>
       <ul>
@@ -49,7 +56,12 @@ export function OrderSummary() {
         </tfoot>
       </table>
 
-      <ConfirmOrderButton type="button">Confirmar pedido</ConfirmOrderButton>
+      <ConfirmOrderButton
+        type="button"
+        onClick={handleNavigateToCompletedOrderPage}
+      >
+        Confirmar pedido
+      </ConfirmOrderButton>
     </OrderSummaryContainer>
   );
 }
