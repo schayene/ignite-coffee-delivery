@@ -28,7 +28,7 @@ export function CartItem({ item }: CartItemProps) {
         <Details>
           <h3>{item.name}</h3>
           <Actions>
-            <InputQuantity />
+            <InputQuantity quantity={item.quantity} />
             <Button type="button">
               <Trash size={16} />
               Remover
