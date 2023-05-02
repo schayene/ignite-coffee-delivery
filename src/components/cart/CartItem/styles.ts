@@ -68,4 +68,8 @@ export const Actions = styled.div`
       color: ${(props) => props.theme.purple};
     }
   }
+
+  @media (max-width: 400px) {
+    flex-wrap: wrap;
+  }
 `;
