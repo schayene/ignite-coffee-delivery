@@ -1,29 +1,13 @@
 import { ConfirmOrderButton, OrderSummaryContainer } from "./styles";
-import { CartItem, CartItemType } from "../../../../components/cart/CartItem";
+import { CartItem } from "../../../../components/cart/CartItem";
 import { useNavigate } from "react-router-dom";
-
-import expressoTradicional from "../../../../assets/expresso-tradicional.png";
-import latte from "../../../../assets/latte.png";
-
-const cartItems: CartItemType[] = [
-  {
-    id: 1,
-    image: expressoTradicional,
-    name: "Expresso Tradicional",
-    price: 9.9,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    image: latte,
-    name: "Latte",
-    price: 9.9,
-    quantity: 2,
-  },
-];
+import { useContext } from "react";
+import { CartContext } from "../../../../layouts/DefaultLayout";
 
 export function OrderSummary() {
   const navigate = useNavigate();
+
+  const { itensCart } = useContext(CartContext);
 
   function handleNavigateToCompletedOrderPage() {
     navigate("/success");
@@ -32,7 +16,7 @@ export function OrderSummary() {
   return (
     <OrderSummaryContainer>
       <ul>
-        {cartItems.map((item) => (
+        {itensCart.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </ul>

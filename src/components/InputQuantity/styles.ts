@@ -20,6 +20,10 @@ export const InputQuantityContainer = styled.div`
     &::-webkit-outer-spin-button {
       -webkit-appearance: none;
     }
+
+    &:focus {
+      z-index: 2;
+    }
   }
 
   button {
@@ -45,6 +49,10 @@ export const InputQuantityContainer = styled.div`
 
     &:hover {
       color: ${(props) => props.theme["purple-dark"]};
+    }
+
+    &:focus {
+      z-index: 2;
     }
   }
 `;

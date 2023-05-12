@@ -9,6 +9,11 @@ import {
 } from "./styles";
 import { Tag, TagType } from "../Tag";
 import { InputQuantity } from "../../../../../../components/InputQuantity";
+import { useContext, useState } from "react";
+import {
+  CartContext,
+  ItemCartType,
+} from "../../../../../../layouts/DefaultLayout";
 
 export interface CoffeeInterface {
   id: string;
@@ -24,9 +29,31 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
+  const [quantity, setQuantity] = useState(1);
+
+  const { setItensCart } = useContext(CartContext);
+
   const priceFormatted = coffee.price.toLocaleString("pt-br", {
     minimumFractionDigits: 2,
   });
+
+  function changeQuantity(quantity: number): void {
+    setQuantity(quantity);
+  }
+
+  function handleAddItemToCart() {
+    const newItem: ItemCartType = {
+      id: coffee.id,
+      name: coffee.name,
+      price: coffee.price,
+      image: coffee.image,
+      quantity,
+    };
+
+    setItensCart((state) => [...state, newItem]);
+
+    changeQuantity(1);
+  }
 
   return (
     <CoffeeCardContainer>
@@ -46,8 +73,11 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
         </span>
 
         <CardActions>
-          <InputQuantity />
-          <ButtonCart type="button">
+          <InputQuantity
+            quantity={quantity}
+            onChangeQuantity={changeQuantity}
+          />
+          <ButtonCart type="button" onClick={handleAddItemToCart}>
             <ShoppingCartSimple size={22} weight="fill" />
           </ButtonCart>
         </CardActions>
