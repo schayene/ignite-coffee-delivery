@@ -1,41 +1,26 @@
 import { ConfirmOrderButton, OrderSummaryContainer } from "./styles";
 import { CartItem } from "../../../../components/cart/CartItem";
 import { useContext } from "react";
-import { CartContext } from "../../../../layouts/DefaultLayout";
+import { CartContext } from "../../../../contexts/CartContext";
+import { getFormattedPrice } from "../../../../helpers/formatHelper";
 
 export function OrderSummary() {
-  const { itemsCart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
 
-  const totalOfItemsInCart = itemsCart.reduce(
-    (prev, cur) => (prev += cur.price * cur.quantity),
-    0
-  );
-  const formattedTotalOfItemsInCart = totalOfItemsInCart.toLocaleString(
-    "pt-br",
-    {
-      style: "currency",
-      currency: "BRL",
-    }
+  const formattedTotalPriceOfItemsInCart = getFormattedPrice(
+    cart.totalPriceOfItemsInCart
   );
 
-  const totalFreight = 3.5;
-  const formattedTotalFreight = totalFreight.toLocaleString("pt-br", {
-    style: "currency",
-    currency: "BRL",
-  });
+  const formattedTotalShippingPrice = getFormattedPrice(cart.shippingPrice);
 
-  const totalFormatted = (totalOfItemsInCart + totalFreight).toLocaleString(
-    "pt-br",
-    {
-      style: "currency",
-      currency: "BRL",
-    }
+  const totalPriceFormatted = getFormattedPrice(
+    cart.totalPriceOfItemsInCart + cart.shippingPrice
   );
 
   return (
     <OrderSummaryContainer>
       <ul>
-        {itemsCart.map((item) => (
+        {cart.items.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </ul>
@@ -44,17 +29,17 @@ export function OrderSummary() {
         <tbody>
           <tr>
             <td>Total de itens</td>
-            <td>{formattedTotalOfItemsInCart}</td>
+            <td>{formattedTotalPriceOfItemsInCart}</td>
           </tr>
           <tr>
             <td>Entrega</td>
-            <td>{formattedTotalFreight}</td>
+            <td>{formattedTotalShippingPrice}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td>Total</td>
-            <td>{totalFormatted}</td>
+            <td>{totalPriceFormatted}</td>
           </tr>
         </tfoot>
       </table>

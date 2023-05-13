@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 export interface CartItemType {
   id: string;
@@ -10,22 +16,144 @@ export interface CartItemType {
 
 interface CartType {
   items: CartItemType[];
+  totalItems: number;
+  totalPriceOfItemsInCart: number;
+  shippingPrice: number;
+  totalPrice: number;
 }
 
 interface CartContextType {
   cart: CartType;
+  addNewItemToCart: (newItem: CartItemType) => void;
+  updateQuantityOfACartItem: (itemId: string, newQuantity: number) => void;
+  removeItemFromCart: (itemId: string) => void;
+  resetCart: () => void;
 }
 
-const CartContext = createContext({} as CartContextType);
+export const CartContext = createContext({} as CartContextType);
 
 interface CartContextProviderProps {
   children: ReactNode;
 }
 
+const initialState = {
+  items: [],
+  totalItems: 0,
+  totalPriceOfItemsInCart: 0,
+  shippingPrice: 0,
+  totalPrice: 0,
+};
+
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cart, setCart] = useState<CartType>({} as CartType);
+  const [cart, setCart] = useState<CartType>(() => {
+    const storedStateAsJSON = localStorage.getItem(
+      "@coffee-delivery:cart-1.0.0"
+    );
+
+    if (storedStateAsJSON) {
+      return JSON.parse(storedStateAsJSON);
+    }
+
+    return initialState;
+  });
+
+  function updateTotalItems() {
+    setCart((state) => {
+      const totalPriceOfItemsInCart = state.items.reduce(
+        (prev, cur) => (prev += cur.price * cur.quantity),
+        0
+      );
+
+      return {
+        ...state,
+        totalItems: state.items.length,
+        totalPriceOfItemsInCart,
+        totalPrice: state.shippingPrice + totalPriceOfItemsInCart,
+      };
+    });
+  }
+
+  const addNewItemToCart = useCallback((newItem: CartItemType): void => {
+    setCart((state) => {
+      const itemExists = state.items.some((item) => item.id === newItem.id);
+
+      let listOfNewItems = [];
+
+      if (itemExists) {
+        listOfNewItems = state.items.map((item) => {
+          if (item.id === newItem.id) {
+            return {
+              ...item,
+              quantity: (item.quantity += newItem.quantity),
+            };
+          }
+          return item;
+        });
+      } else {
+        listOfNewItems = [...state.items, newItem];
+      }
+
+      return {
+        ...state,
+        items: listOfNewItems,
+      };
+    });
+  }, []);
+
+  const updateQuantityOfACartItem = useCallback(
+    (itemId: string, newQuantity: number): void => {
+      setCart((state) => {
+        return {
+          ...state,
+          items: state.items.map((itemCart: CartItemType) => {
+            if (itemCart.id === itemId) {
+              return {
+                ...itemCart,
+                quantity: newQuantity,
+              };
+            }
+            return itemCart;
+          }),
+        };
+      });
+    },
+    []
+  );
+
+  const removeItemFromCart = useCallback((itemId: string): void => {
+    setCart((state) => {
+      return {
+        ...state,
+        items: state.items.filter(
+          (itemCart: CartItemType) => itemCart.id !== itemId
+        ),
+      };
+    });
+  }, []);
+
+  const resetCart = useCallback((): void => {
+    setCart(initialState);
+  }, []);
+
+  useEffect(() => {
+    updateTotalItems();
+
+    const stateJSON = JSON.stringify(cart);
+
+    localStorage.setItem("@coffee-delivery:cart-1.0.0", stateJSON);
+  }, [cart]);
 
   return (
-    <CartContext.Provider value={{ cart }}>{children}</CartContext.Provider>
+    <CartContext.Provider
+      value={{
+        cart,
+        addNewItemToCart,
+        updateQuantityOfACartItem,
+        removeItemFromCart,
+        resetCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
   );
 }

@@ -3,38 +3,25 @@ import { Actions, CartItemContainer, Details, Info } from "./styles";
 import { InputQuantity } from "../../InputQuantity";
 import { Button } from "../../Button";
 import { useContext } from "react";
-import { CartContext, ItemCartType } from "../../../layouts/DefaultLayout";
+import { CartContext, CartItemType } from "../../../contexts/CartContext";
+import { getFormattedPrice } from "../../../helpers/formatHelper";
 
 interface CartItemProps {
-  item: ItemCartType;
+  item: CartItemType;
 }
 
 export function CartItem({ item }: CartItemProps) {
-  const { setItemsCart } = useContext(CartContext);
+  const { updateQuantityOfACartItem, removeItemFromCart } =
+    useContext(CartContext);
 
-  const priceFormatted = (item.price * item.quantity).toLocaleString("pt-br", {
-    style: "currency",
-    currency: "BRL",
-  });
+  const priceFormatted = getFormattedPrice(item.price * item.quantity);
 
   function changeQuantity(quantity: number): void {
-    setItemsCart((state) => {
-      return state.map((itemCart: ItemCartType) => {
-        if (itemCart.id === item.id) {
-          return {
-            ...itemCart,
-            quantity,
-          };
-        }
-        return itemCart;
-      });
-    });
+    updateQuantityOfACartItem(item.id, quantity);
   }
 
   function handleRemoveItemFromCart() {
-    setItemsCart((state) => {
-      return state.filter((itemCart: ItemCartType) => itemCart.id !== item.id);
-    });
+    removeItemFromCart(item.id);
   }
 
   return (

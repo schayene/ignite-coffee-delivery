@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
+import { useContext } from "react";
+import { CartContext } from "../../contexts/CartContext";
 
 const formValidationSchema = zod.object({
   payment_type: zod.string(),
   postal_code: zod
     .string({
-      required_error: "Informe o CEP!"
+      required_error: "Informe o CEP!",
     })
     .min(8, "Informe um CEP válido!")
     .max(8, "Informe um CEP válido!"),
   street: zod.string({
-    required_error: "Informe uma rua!"
+    required_error: "Informe uma rua!",
   }),
   number: zod.string(),
   district: zod.string(),
@@ -28,6 +30,8 @@ const formValidationSchema = zod.object({
 type FormData = zod.infer<typeof formValidationSchema>;
 
 export function Checkout() {
+  const { resetCart } = useContext(CartContext);
+
   const form = useForm<FormData>({
     resolver: zodResolver(formValidationSchema),
     defaultValues: {
@@ -51,6 +55,8 @@ export function Checkout() {
 
   function onSubmit(data: FormData) {
     console.log(data);
+
+    resetCart();
   }
 
   return (

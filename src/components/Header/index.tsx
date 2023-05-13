@@ -1,16 +1,15 @@
 import { MapPin, ShoppingCart } from "phosphor-react";
 import { HeaderActions, HeaderContainer, IconCart, Location } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { CartContext } from "../../layouts/DefaultLayout";
+import { useContext } from "react";
 
 import coffeeDeliveryLogo from "../../assets/coffee-delivery-logo.svg";
+import { CartContext } from "../../contexts/CartContext";
 
 export function Header() {
   const navigate = useNavigate();
 
-  const { itemsCart } = useContext(CartContext);
-  const totalItemsCart = itemsCart.length;
+  const { cart } = useContext(CartContext);
 
   function handleNavigateToHomePage() {
     navigate("/");
@@ -19,13 +18,6 @@ export function Header() {
   function handleNavigateToCheckoutPage() {
     navigate("/checkout");
   }
-
-  useEffect(() => {
-    if (!totalItemsCart) {
-      navigate("/");
-      return;
-    }
-  }, [totalItemsCart, navigate]);
 
   return (
     <HeaderContainer>
@@ -42,7 +34,7 @@ export function Header() {
           onClick={handleNavigateToCheckoutPage}
         >
           <ShoppingCart size={22} weight="fill" />
-          <span>{totalItemsCart}</span>
+          <span>{cart.totalItems}</span>
         </IconCart>
       </HeaderActions>
     </HeaderContainer>
