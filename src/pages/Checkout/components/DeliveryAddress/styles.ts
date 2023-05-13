@@ -12,7 +12,7 @@ export const CardHeader = styled(BaseCardHeader)`
   }
 `;
 
-export const AddressForm = styled.form`
+export const AddressContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -39,7 +39,7 @@ export const AddressForm = styled.form`
         box-shadow: 0 0 0 2px ${(props) => props.theme["yellow-dark"]};
       }
 
-      &[name="cep"] {
+      &[name="postal_code"] {
         max-width: 12rem;
       }
       &[name="street"] {

@@ -9,8 +9,8 @@ import coffeeDeliveryLogo from "../../assets/coffee-delivery-logo.svg";
 export function Header() {
   const navigate = useNavigate();
 
-  const { itensCart } = useContext(CartContext);
-  const totalItensCart = itensCart.length;
+  const { itemsCart } = useContext(CartContext);
+  const totalItemsCart = itemsCart.length;
 
   function handleNavigateToHomePage() {
     navigate("/");
@@ -21,11 +21,11 @@ export function Header() {
   }
 
   useEffect(() => {
-    if (!totalItensCart) {
+    if (!totalItemsCart) {
       navigate("/");
       return;
     }
-  }, [totalItensCart, navigate]);
+  }, [totalItemsCart, navigate]);
 
   return (
     <HeaderContainer>
@@ -42,7 +42,7 @@ export function Header() {
           onClick={handleNavigateToCheckoutPage}
         >
           <ShoppingCart size={22} weight="fill" />
-          <span>{totalItensCart}</span>
+          <span>{totalItemsCart}</span>
         </IconCart>
       </HeaderActions>
     </HeaderContainer>

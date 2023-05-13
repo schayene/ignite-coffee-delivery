@@ -5,8 +5,13 @@ import {
   PaymentForm,
   ButtonPaymentType,
 } from "./styles";
+import { useFormContext } from "react-hook-form";
 
 export function Payment() {
+  const { register, watch } = useFormContext();
+
+  const paymentType = watch("payment_type");
+
   return (
     <PaymentContainer>
       <CardHeader>
@@ -19,22 +24,49 @@ export function Payment() {
         </div>
       </CardHeader>
       <PaymentForm>
-        <ButtonPaymentType type="button" className="active">
-          <input hidden type="radio" id="credit_card" />
+        <ButtonPaymentType
+          type="button"
+          className={`${paymentType === "credit_card" && "active"}`}
+        >
+          <input
+            hidden
+            type="radio"
+            id="credit_card"
+            value="credit_card"
+            {...register("payment_type")}
+          />
           <label htmlFor="credit_card">
             <CreditCard size={16} />
             Cartão de crédito
           </label>
         </ButtonPaymentType>
-        <ButtonPaymentType type="button">
-          <input hidden type="radio" id="debit_card" />
+        <ButtonPaymentType
+          type="button"
+          className={`${paymentType === "debit_card" && "active"}`}
+        >
+          <input
+            hidden
+            type="radio"
+            id="debit_card"
+            value="debit_card"
+            {...register("payment_type")}
+          />
           <label htmlFor="debit_card">
             <Bank size={16} />
             Cartão de débito
           </label>
         </ButtonPaymentType>
-        <ButtonPaymentType type="button">
-          <input hidden type="radio" id="money" />
+        <ButtonPaymentType
+          type="button"
+          className={`${paymentType === "money" && "active"}`}
+        >
+          <input
+            hidden
+            type="radio"
+            id="money"
+            value="money"
+            {...register("payment_type")}
+          />
           <label htmlFor="money">
             <Money size={16} />
             Dinheiro

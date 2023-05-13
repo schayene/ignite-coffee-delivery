@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { Wrapper } from "../../layouts/DefaultLayout/styles";
 
-export const CheckoutContainer = styled(Wrapper)`
+export const CheckoutContainer = styled(Wrapper)``;
+
+export const CheckoutForm = styled.form`
   display: flex;
   gap: 2rem;
 

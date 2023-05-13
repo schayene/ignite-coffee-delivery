@@ -43,7 +43,7 @@ export const IntroDetails = styled.div`
   }
 `;
 
-export const IntroItens = styled.ul`
+export const IntroItems = styled.ul`
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));

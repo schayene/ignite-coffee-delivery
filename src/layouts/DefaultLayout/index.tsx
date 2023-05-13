@@ -12,17 +12,17 @@ export interface ItemCartType {
 }
 
 interface CartContextType {
-  itensCart: ItemCartType[];
-  setItensCart: (itens: ItemCartType[]) => void;
+  itemsCart: ItemCartType[];
+  setItemsCart: (items: ItemCartType[]) => void;
 }
 
 export const CartContext = createContext({} as CartContextType);
 
 export function DefaultLayout() {
-  const [itensCart, setItensCart] = useState<ItemCartType[]>([]);
+  const [itemsCart, setItemsCart] = useState<ItemCartType[]>([]);
 
   return (
-    <CartContext.Provider value={{ itensCart, setItensCart }}>
+    <CartContext.Provider value={{ itemsCart, setItemsCart }}>
       <LayoutContainer>
         <Header />
         <main>

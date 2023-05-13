@@ -1,7 +1,14 @@
 import { MapPinLine } from "phosphor-react";
-import { AddressForm, CardHeader, DeliveryAddressContainer } from "./styles";
+import {
+  AddressContainer,
+  CardHeader,
+  DeliveryAddressContainer,
+} from "./styles";
+import { useFormContext } from "react-hook-form";
 
 export function DeliveryAddress() {
+  const { register } = useFormContext();
+
   return (
     <DeliveryAddressContainer>
       <CardHeader>
@@ -11,23 +18,52 @@ export function DeliveryAddress() {
           <p>Informe o endereço onde deseja receber seu pedido</p>
         </div>
       </CardHeader>
-      <AddressForm>
+      <AddressContainer>
         <div>
-          <input type="text" name="cep" placeholder="CEP" />
+          <input
+            type="text"
+            placeholder="CEP"
+            required
+            {...register("postal_code")}
+          />
         </div>
         <div>
-          <input type="text" name="street" placeholder="Rua" />
+          <input
+            type="text"
+            placeholder="Rua"
+            required
+            {...register("street")}
+          />
         </div>
         <div>
-          <input type="text" name="number" placeholder="Número" />
-          <input type="text" name="complement" placeholder="Complemento" />
+          <input
+            type="text"
+            placeholder="Número"
+            required
+            {...register("number")}
+          />
+          <input
+            type="text"
+            placeholder="Complemento"
+            {...register("complement")}
+          />
         </div>
         <div>
-          <input type="text" name="district" placeholder="Bairro" />
-          <input type="text" name="city" placeholder="Cidade" />
-          <input type="text" name="uf" placeholder="UF" />
+          <input
+            type="text"
+            placeholder="Bairro"
+            required
+            {...register("district")}
+          />
+          <input
+            type="text"
+            placeholder="Cidade"
+            required
+            {...register("city")}
+          />
+          <input type="text" placeholder="UF" required {...register("uf")} />
         </div>
-      </AddressForm>
+      </AddressContainer>
     </DeliveryAddressContainer>
   );
 }

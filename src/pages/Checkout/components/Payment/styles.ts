@@ -10,7 +10,7 @@ export const CardHeader = styled(BaseCardHeader)`
   }
 `;
 
-export const PaymentForm = styled.form`
+export const PaymentForm = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   grid-gap: 0.75rem;

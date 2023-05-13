@@ -1,20 +1,73 @@
-import { CheckoutContainer } from "./styles";
+import { CheckoutContainer, CheckoutForm } from "./styles";
 import { DeliveryAddress } from "./components/DeliveryAddress";
 import { Payment } from "./components/Payment";
 import { OrderSummary } from "./components/OrderSummary";
+import { useNavigate } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
+
+const formValidationSchema = zod.object({
+  payment_type: zod.string(),
+  postal_code: zod
+    .string({
+      required_error: "Informe o CEP!"
+    })
+    .min(8, "Informe um CEP válido!")
+    .max(8, "Informe um CEP válido!"),
+  street: zod.string({
+    required_error: "Informe uma rua!"
+  }),
+  number: zod.string(),
+  district: zod.string(),
+  complement: zod.string().nullable(),
+  city: zod.string(),
+  uf: zod.string().toUpperCase(),
+});
+
+type FormData = zod.infer<typeof formValidationSchema>;
 
 export function Checkout() {
+  const form = useForm<FormData>({
+    resolver: zodResolver(formValidationSchema),
+    defaultValues: {
+      payment_type: "",
+      postal_code: "",
+      street: "",
+      number: "",
+      district: "",
+      complement: "",
+      city: "",
+      uf: "",
+    },
+  });
+  const { handleSubmit } = form;
+
+  const navigate = useNavigate();
+
+  function handleNavigateToCompletedOrderPage() {
+    navigate("/success");
+  }
+
+  function onSubmit(data: FormData) {
+    console.log(data);
+  }
+
   return (
     <CheckoutContainer>
-      <div>
-        <h2>Complete seu pedido</h2>
-        <DeliveryAddress />
-        <Payment />
-      </div>
-      <div>
-        <h2>Cafés selecionados</h2>
-        <OrderSummary />
-      </div>
+      <CheckoutForm onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <h2>Complete seu pedido</h2>
+          <FormProvider {...form}>
+            <DeliveryAddress />
+            <Payment />
+          </FormProvider>
+        </div>
+        <div>
+          <h2>Cafés selecionados</h2>
+          <OrderSummary />
+        </div>
+      </CheckoutForm>
     </CheckoutContainer>
   );
 }

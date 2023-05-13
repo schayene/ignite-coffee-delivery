@@ -31,7 +31,7 @@ interface CoffeeCardProps {
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const [quantity, setQuantity] = useState(1);
 
-  const { setItensCart } = useContext(CartContext);
+  const { setItemsCart } = useContext(CartContext);
 
   const priceFormatted = coffee.price.toLocaleString("pt-br", {
     minimumFractionDigits: 2,
@@ -50,7 +50,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
       quantity,
     };
 
-    setItensCart((state) => [...state, newItem]);
+    setItemsCart((state) => [...state, newItem]);
 
     changeQuantity(1);
   }

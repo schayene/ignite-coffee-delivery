@@ -3,7 +3,7 @@ import {
   Content,
   IntroContainer,
   IntroDetails,
-  IntroItens,
+  IntroItems,
   Item,
 } from "./styles";
 
@@ -19,7 +19,7 @@ export function Intro() {
             Com o Coffee Delivery você recebe seu café onde estiver, a qualquer
             hora
           </p>
-          <IntroItens>
+          <IntroItems>
             <li>
               <Item background="yellow-dark">
                 <ShoppingCart size={16} weight="fill" />
@@ -44,7 +44,7 @@ export function Intro() {
               </Item>
               O café chega fresquinho até você
             </li>
-          </IntroItens>
+          </IntroItems>
         </IntroDetails>
 
         <img src={bannerImage} />

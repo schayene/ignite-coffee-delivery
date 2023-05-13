@@ -1,22 +1,41 @@
 import { ConfirmOrderButton, OrderSummaryContainer } from "./styles";
 import { CartItem } from "../../../../components/cart/CartItem";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../../../../layouts/DefaultLayout";
 
 export function OrderSummary() {
-  const navigate = useNavigate();
+  const { itemsCart } = useContext(CartContext);
 
-  const { itensCart } = useContext(CartContext);
+  const totalOfItemsInCart = itemsCart.reduce(
+    (prev, cur) => (prev += cur.price * cur.quantity),
+    0
+  );
+  const formattedTotalOfItemsInCart = totalOfItemsInCart.toLocaleString(
+    "pt-br",
+    {
+      style: "currency",
+      currency: "BRL",
+    }
+  );
 
-  function handleNavigateToCompletedOrderPage() {
-    navigate("/success");
-  }
+  const totalFreight = 3.5;
+  const formattedTotalFreight = totalFreight.toLocaleString("pt-br", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const totalFormatted = (totalOfItemsInCart + totalFreight).toLocaleString(
+    "pt-br",
+    {
+      style: "currency",
+      currency: "BRL",
+    }
+  );
 
   return (
     <OrderSummaryContainer>
       <ul>
-        {itensCart.map((item) => (
+        {itemsCart.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </ul>
@@ -25,27 +44,22 @@ export function OrderSummary() {
         <tbody>
           <tr>
             <td>Total de itens</td>
-            <td>R$ 29,70</td>
+            <td>{formattedTotalOfItemsInCart}</td>
           </tr>
           <tr>
             <td>Entrega</td>
-            <td>R$ 3,50</td>
+            <td>{formattedTotalFreight}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td>Total</td>
-            <td>R$ 33,20</td>
+            <td>{totalFormatted}</td>
           </tr>
         </tfoot>
       </table>
 
-      <ConfirmOrderButton
-        type="button"
-        onClick={handleNavigateToCompletedOrderPage}
-      >
-        Confirmar pedido
-      </ConfirmOrderButton>
+      <ConfirmOrderButton type="submit">Confirmar pedido</ConfirmOrderButton>
     </OrderSummaryContainer>
   );
 }
