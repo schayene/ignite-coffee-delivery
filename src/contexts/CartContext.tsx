@@ -98,6 +98,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         items: listOfNewItems,
       };
     });
+    updateTotalItems();
   }, []);
 
   const updateQuantityOfACartItem = useCallback(
@@ -116,6 +117,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           }),
         };
       });
+      updateTotalItems();
     },
     []
   );
@@ -129,6 +131,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         ),
       };
     });
+    updateTotalItems();
   }, []);
 
   const resetCart = useCallback((): void => {
@@ -136,8 +139,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   }, []);
 
   useEffect(() => {
-    updateTotalItems();
-
     const stateJSON = JSON.stringify(cart);
 
     localStorage.setItem("@coffee-delivery:cart-1.0.0", stateJSON);
