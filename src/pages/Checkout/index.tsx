@@ -12,11 +12,10 @@ import { CartContext } from "../../contexts/CartContext";
 const formValidationSchema = zod.object({
   payment_type: zod.string(),
   postal_code: zod
-    .string({
-      required_error: "Informe o CEP!",
-    })
-    .min(8, "Informe um CEP válido!")
-    .max(8, "Informe um CEP válido!"),
+    .string()
+    .min(1, { message: "Informe um CEP!" })
+    .regex(/^\d{5}-\d{3}/g, "Informe um CEP válido!"),
+  // .length(8, "Informe um CEP válido!"),
   street: zod.string({
     required_error: "Informe uma rua!",
   }),
@@ -45,18 +44,19 @@ export function Checkout() {
       uf: "",
     },
   });
-  const { handleSubmit } = form;
+  const { handleSubmit, reset } = form;
 
   const navigate = useNavigate();
 
-  function handleNavigateToCompletedOrderPage() {
-    navigate("/success");
-  }
-
   function onSubmit(data: FormData) {
-    console.log(data);
+    sessionStorage.setItem(
+      "@coffee-delivery:order-details",
+      JSON.stringify(data)
+    );
 
     resetCart();
+    reset();
+    navigate("/success", { state: data });
   }
 
   return (

@@ -7,7 +7,19 @@ import {
 import { useFormContext } from "react-hook-form";
 
 export function DeliveryAddress() {
-  const { register } = useFormContext();
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+
+  const postal_code = watch("postal_code")
+    .replace(/\D/g, "")
+    .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
+
+  console.log(errors);
+
+  const error = errors.postal_code?.message as string;
 
   return (
     <DeliveryAddressContainer>
@@ -23,25 +35,16 @@ export function DeliveryAddress() {
           <input
             type="text"
             placeholder="CEP"
-            required
+            value={postal_code}
             {...register("postal_code")}
           />
+          {error}
         </div>
         <div>
-          <input
-            type="text"
-            placeholder="Rua"
-            required
-            {...register("street")}
-          />
+          <input type="text" placeholder="Rua" {...register("street")} />
         </div>
         <div>
-          <input
-            type="text"
-            placeholder="Número"
-            required
-            {...register("number")}
-          />
+          <input type="text" placeholder="Número" {...register("number")} />
           <input
             type="text"
             placeholder="Complemento"
@@ -49,19 +52,9 @@ export function DeliveryAddress() {
           />
         </div>
         <div>
-          <input
-            type="text"
-            placeholder="Bairro"
-            required
-            {...register("district")}
-          />
-          <input
-            type="text"
-            placeholder="Cidade"
-            required
-            {...register("city")}
-          />
-          <input type="text" placeholder="UF" required {...register("uf")} />
+          <input type="text" placeholder="Bairro" {...register("district")} />
+          <input type="text" placeholder="Cidade" {...register("city")} />
+          <input type="text" placeholder="UF" {...register("uf")} />
         </div>
       </AddressContainer>
     </DeliveryAddressContainer>
