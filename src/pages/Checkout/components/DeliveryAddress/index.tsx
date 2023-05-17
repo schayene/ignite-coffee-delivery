@@ -17,8 +17,6 @@ export function DeliveryAddress() {
     .replace(/\D/g, "")
     .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
 
-  console.log(errors);
-
   const error = errors.postal_code?.message as string;
 
   return (
