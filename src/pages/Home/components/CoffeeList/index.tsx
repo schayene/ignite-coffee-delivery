@@ -1,5 +1,5 @@
 import { CoffeeCard, CoffeeInterface } from "./components/CoffeeCard";
-import { Filter } from "./components/Filter";
+import { Tags } from "./components/Tags";
 import { CoffeeListContainer, List, ListHeader } from "./styles";
 
 import expressoTradicional from "../../../../assets/expresso-tradicional.png";
@@ -142,7 +142,7 @@ export function CoffeeList() {
     <CoffeeListContainer>
       <ListHeader>
         <h2>Nossos cafés</h2>
-        <Filter />
+        <Tags />
       </ListHeader>
 
       <List>
