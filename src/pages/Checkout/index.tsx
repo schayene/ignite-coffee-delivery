@@ -15,15 +15,12 @@ const formValidationSchema = zod.object({
     .string()
     .min(1, { message: "Informe um CEP!" })
     .regex(/^\d{5}-\d{3}/g, "Informe um CEP válido!"),
-  // .length(8, "Informe um CEP válido!"),
-  street: zod.string({
-    required_error: "Informe uma rua!",
-  }),
-  number: zod.string(),
-  district: zod.string(),
+  street: zod.string().min(1, { message: "Informe uma rua!" }),
+  number: zod.string().min(1, { message: "Informe um número!" }),
+  district: zod.string().min(1, { message: "Informe um bairro!" }),
   complement: zod.string().nullable(),
-  city: zod.string(),
-  uf: zod.string().toUpperCase(),
+  city: zod.string().min(1, { message: "Informe uma cidade!" }),
+  uf: zod.string().min(1, { message: "Informe um UF!" }),
 });
 
 type FormData = zod.infer<typeof formValidationSchema>;
@@ -53,6 +50,8 @@ export function Checkout() {
       "@coffee-delivery:order-details",
       JSON.stringify(data)
     );
+
+    return;
 
     resetCart();
     reset();

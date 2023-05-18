@@ -17,7 +17,11 @@ export function DeliveryAddress() {
     .replace(/\D/g, "")
     .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
 
-  const error = errors.postal_code?.message as string;
+  const messages: string[] = [];
+
+  Object.entries(errors).forEach((element) => {
+    messages.push(element[1]?.message as string);
+  });
 
   return (
     <DeliveryAddressContainer>
@@ -36,7 +40,7 @@ export function DeliveryAddress() {
             value={postal_code}
             {...register("postal_code")}
           />
-          {error}
+          {messages.join("\n")}
         </div>
         <div>
           <input type="text" placeholder="Rua" {...register("street")} />
