@@ -3,7 +3,7 @@ import {
   createContext,
   useCallback,
   useEffect,
-  useState,
+  useReducer,
 } from "react";
 
 export interface CartItemType {
@@ -36,107 +36,142 @@ interface CartContextProviderProps {
   children: ReactNode;
 }
 
-const initialState = {
-  items: [],
-  totalItems: 0,
-  totalPriceOfItemsInCart: 0,
-  shippingPrice: 0,
-  totalPrice: 0,
-};
-
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cart, setCart] = useState<CartType>(() => {
-    const storedStateAsJSON = localStorage.getItem(
-      "@coffee-delivery:cart-1.0.0"
-    );
+  const [cart, dispatch] = useReducer(
+    (state: CartType, action: any) => {
+      console.log(state);
+      if (action.type === "ADD_ITEM_TO_CART") {
+        const itemExists = state.items.some(
+          (item) => item.id === action.payload.newItem.id
+        );
 
-    if (storedStateAsJSON) {
-      return JSON.parse(storedStateAsJSON);
-    }
+        let listOfNewItems = [];
 
-    return initialState;
-  });
-
-  function updateTotalItems() {
-    setCart((state) => {
-      const totalPriceOfItemsInCart = state.items.reduce(
-        (prev, cur) => (prev += cur.price * cur.quantity),
-        0
-      );
-
-      return {
-        ...state,
-        totalItems: state.items.length,
-        totalPriceOfItemsInCart,
-        totalPrice: state.shippingPrice + totalPriceOfItemsInCart,
-      };
-    });
-  }
-
-  const addNewItemToCart = useCallback((newItem: CartItemType): void => {
-    setCart((state) => {
-      const itemExists = state.items.some((item) => item.id === newItem.id);
-
-      let listOfNewItems = [];
-
-      if (itemExists) {
-        listOfNewItems = state.items.map((item) => {
-          if (item.id === newItem.id) {
-            return {
-              ...item,
-              quantity: (item.quantity += newItem.quantity),
-            };
-          }
-          return item;
-        });
-      } else {
-        listOfNewItems = [...state.items, newItem];
-      }
-
-      return {
-        ...state,
-        items: listOfNewItems,
-      };
-    });
-    updateTotalItems();
-  }, []);
-
-  const updateQuantityOfACartItem = useCallback(
-    (itemId: string, newQuantity: number): void => {
-      setCart((state) => {
+        if (itemExists) {
+          listOfNewItems = state.items.map((item) => {
+            if (item.id === action.payload.newItem.id) {
+              return {
+                ...item,
+                quantity: (item.quantity += action.payload.newItem.quantity),
+              };
+            }
+            return item;
+          });
+        } else {
+          listOfNewItems = [...state.items, action.payload.newItem];
+        }
+        return {
+          ...state,
+          items: listOfNewItems,
+        };
+      } else if (action.type === "REMOVE_ITEM_FROM_CART") {
+        return {
+          ...state,
+          items: state.items.filter(
+            (itemCart: CartItemType) => itemCart.id !== action.payload.itemId
+          ),
+        };
+      } else if (action.type === "RESET_CART") {
+        return {
+          items: [],
+          totalItems: 0,
+          totalPriceOfItemsInCart: 0,
+          shippingPrice: 0,
+          totalPrice: 0,
+        };
+      } else if (action.type === "UPDATE_QUANTITY_OF_A_CART_ITEM") {
         return {
           ...state,
           items: state.items.map((itemCart: CartItemType) => {
-            if (itemCart.id === itemId) {
+            if (itemCart.id === action.payload.itemId) {
               return {
                 ...itemCart,
-                quantity: newQuantity,
+                quantity: action.payload.newQuantity,
               };
             }
             return itemCart;
           }),
         };
-      });
-      updateTotalItems();
+      } else if (action.type === "UPDATE_TOTAL_ITEMS") {
+        const totalPriceOfItemsInCart = state.items.reduce(
+          (prev, cur) => (prev += cur.price * cur.quantity),
+          0
+        );
+        return {
+          ...state,
+          totalItems: state.items.length,
+          totalPriceOfItemsInCart,
+          totalPrice: state.shippingPrice + totalPriceOfItemsInCart,
+        };
+      }
+
+      return state;
     },
-    []
+    {
+      items: [],
+      totalItems: 0,
+      totalPriceOfItemsInCart: 0,
+      shippingPrice: 0,
+      totalPrice: 0,
+    },
+    (initialState) => {
+      const storedStateAsJSON = localStorage.getItem(
+        "@coffee-delivery:cart-1.0.0"
+      );
+
+      if (storedStateAsJSON) {
+        return JSON.parse(storedStateAsJSON);
+      }
+
+      return initialState;
+    }
   );
 
-  const removeItemFromCart = useCallback((itemId: string): void => {
-    setCart((state) => {
-      return {
-        ...state,
-        items: state.items.filter(
-          (itemCart: CartItemType) => itemCart.id !== itemId
-        ),
-      };
+  function updateTotalItems() {
+    dispatch({
+      type: "UPDATE_TOTAL_ITEMS",
+    });
+  }
+
+  const addNewItemToCart = (newItem: CartItemType): void => {
+    dispatch({
+      type: "ADD_ITEM_TO_CART",
+      payload: {
+        newItem,
+      },
     });
     updateTotalItems();
-  }, []);
+  };
 
-  const resetCart = useCallback((): void => {
-    setCart(initialState);
-  }, []);
+  const updateQuantityOfACartItem = (
+    itemId: string,
+    newQuantity: number
+  ): void => {
+    dispatch({
+      type: "UPDATE_QUANTITY_OF_A_CART_ITEM",
+      payload: {
+        itemId,
+        newQuantity,
+      },
+    });
+    updateTotalItems();
+  };
+
+  const removeItemFromCart = (itemId: string): void => {
+    dispatch({
+      type: "REMOVE_ITEM_FROM_CART",
+      payload: {
+        itemId,
+      },
+    });
+    updateTotalItems();
+  };
+
+  const resetCart = (): void => {
+    dispatch({
+      type: "RESET_CART",
+    });
+  };
 
   useEffect(() => {
     const stateJSON = JSON.stringify(cart);
