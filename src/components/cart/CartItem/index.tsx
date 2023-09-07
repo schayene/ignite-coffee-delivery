@@ -3,8 +3,9 @@ import { Actions, CartItemContainer, Details, Info } from "./styles";
 import { InputQuantity } from "../../InputQuantity";
 import { Button } from "../../Button";
 import { useContext } from "react";
-import { CartContext, CartItemType } from "../../../contexts/CartContext";
+import { CartContext } from "../../../contexts/CartContext";
 import { getFormattedPrice } from "../../../helpers/formatHelper";
+import { CartItemType } from "../../../reducers/cart/reducer";
 
 interface CartItemProps {
   item: CartItemType;
