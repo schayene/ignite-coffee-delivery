@@ -6,7 +6,7 @@ import {
   OrderDetails,
 } from "./styles";
 import { CurrencyDollar, MapPin, Timer } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import illustration from "../../assets/illustration.png";
 
