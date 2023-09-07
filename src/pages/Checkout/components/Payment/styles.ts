@@ -1,12 +1,33 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { BaseCard, BaseCardHeader } from "../../styles";
 import { ButtonContainer } from "../../../../components/Button/styles";
 
-export const PaymentContainer = styled(BaseCard)``;
+interface PaymentContainerProps {
+  invalid?: boolean;
+}
+
+export const PaymentContainer = styled(BaseCard)<PaymentContainerProps>`
+  position: relative;
+
+  ${(props) =>
+    props.invalid &&
+    css`
+      border: 1px solid ${(props) => props.theme.error};
+    `}
+`;
 
 export const CardHeader = styled(BaseCardHeader)`
   svg {
     color: ${(props) => props.theme.purple};
+  }
+
+  span {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    svg {
+      color: ${(props) => props.theme.error};
+    }
   }
 `;
 

@@ -1,4 +1,10 @@
-import { Bank, CreditCard, CurrencyDollar, Money } from "phosphor-react";
+import {
+  Bank,
+  CreditCard,
+  CurrencyDollar,
+  Money,
+  WarningCircle,
+} from "phosphor-react";
 import {
   CardHeader,
   PaymentContainer,
@@ -8,12 +14,18 @@ import {
 import { useFormContext } from "react-hook-form";
 
 export function Payment() {
-  const { register, watch } = useFormContext();
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useFormContext();
 
   const paymentType = watch("payment_type");
 
+  const error = errors.payment_type?.message;
+
   return (
-    <PaymentContainer>
+    <PaymentContainer invalid={!!error}>
       <CardHeader>
         <CurrencyDollar size={22} />
         <div>
@@ -22,6 +34,11 @@ export function Payment() {
             O pagamento é feito na entrega. Escolha a forma que deseja pagar
           </p>
         </div>
+        {error && (
+          <span title={error as string}>
+            <WarningCircle size={20} />
+          </span>
+        )}
       </CardHeader>
       <PaymentForm>
         <ButtonPaymentType

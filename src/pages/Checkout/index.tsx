@@ -55,8 +55,6 @@ export function Checkout() {
       JSON.stringify(data)
     );
 
-    return;
-
     resetCart();
     reset();
     navigate("/success", { state: data });
