@@ -14,6 +14,8 @@ export function DeliveryAddress() {
     .replace(/\D/g, "")
     .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
 
+  const number = watch("number").replace(/[a-zA-Z]/g, "");
+
   return (
     <DeliveryAddressContainer>
       <CardHeader>
@@ -36,7 +38,12 @@ export function DeliveryAddress() {
           <InputGroup type="text" placeholder="Rua" keyName="street" />
         </div>
         <div>
-          <InputGroup type="number" placeholder="Número" keyName="number" />
+          <InputGroup
+            type="text"
+            placeholder="Número"
+            keyName="number"
+            value={number}
+          />
           <InputGroup
             optional
             type="text"
