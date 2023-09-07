@@ -19,4 +19,6 @@ export const defaultTheme = {
 
   background: "#FAFAFA",
   white: "#FFFFFF",
+
+  error: "#D32F2F",
 };
