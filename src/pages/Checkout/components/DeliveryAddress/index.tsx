@@ -36,7 +36,7 @@ export function DeliveryAddress() {
           <InputGroup type="text" placeholder="Rua" keyName="street" />
         </div>
         <div>
-          <InputGroup type="text" placeholder="Número" keyName="number" />
+          <InputGroup type="number" placeholder="Número" keyName="number" />
           <InputGroup
             optional
             type="text"

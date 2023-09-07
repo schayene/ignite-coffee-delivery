@@ -45,6 +45,16 @@ export const InputGroupContainer = styled.div<InputGroupContainerProps>`
     &:focus {
       box-shadow: 0 0 0 2px ${(props) => props.theme["yellow-dark"]};
     }
+
+    &[type="number"]::-webkit-inner-spin-button,
+    &[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type="number"] {
+      -moz-appearance: textfield;
+    }
   }
 
   ${(props) =>
