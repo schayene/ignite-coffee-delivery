@@ -10,7 +10,11 @@ import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
 
 const formValidationSchema = zod.object({
-  payment_type: zod.string(),
+  payment_type: zod
+    .enum(["credit_card", "debit_card", "money", ""])
+    .refine((value) => ["credit_card", "debit_card", "money"].includes(value), {
+      message: "Selecione uma forma de pagamento!",
+    }),
   postal_code: zod
     .string()
     .min(1, { message: "Informe um CEP!" })
