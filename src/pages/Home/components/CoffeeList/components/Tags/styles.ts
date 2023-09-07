@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const TagsContainer = styled.div`
   display: flex;
@@ -6,7 +6,11 @@ export const TagsContainer = styled.div`
   gap: 0.5rem;
 `;
 
-export const Tag = styled.span`
+interface TagProps {
+  active: boolean;
+}
+
+export const Tag = styled.span<TagProps>`
   cursor: pointer;
   padding: 0.375rem 0.75rem;
   text-transform: uppercase;
@@ -15,4 +19,17 @@ export const Tag = styled.span`
   font-weight: bold;
   border: 1px solid ${(props) => props.theme.yellow};
   color: ${(props) => props.theme["yellow-dark"]};
+  transition: color 0.2s, background 0.2s;
+
+  &:hover {
+    color: ${(props) => props.theme.white};
+    background: ${(props) => props.theme.yellow};
+  }
+
+  ${(props) =>
+    props.active &&
+    css`
+      color: ${(props) => props.theme.white};
+      background: ${(props) => props.theme.yellow};
+    `}
 `;
