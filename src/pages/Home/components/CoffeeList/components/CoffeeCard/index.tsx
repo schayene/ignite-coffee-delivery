@@ -12,8 +12,8 @@ import { InputQuantity } from "../../../../../../components/InputQuantity";
 import { useContext, useState } from "react";
 import {
   CartContext,
-  CartItemType,
 } from "../../../../../../contexts/CartContext";
+import { CartItemType } from "../../../../../../reducers/cart/reducer";
 
 export interface CoffeeInterface {
   id: string;
