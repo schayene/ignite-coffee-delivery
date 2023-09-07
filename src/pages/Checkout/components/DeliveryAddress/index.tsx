@@ -5,23 +5,14 @@ import {
   DeliveryAddressContainer,
 } from "./styles";
 import { useFormContext } from "react-hook-form";
+import { InputGroup } from "../../../../components/InputGroup";
 
 export function DeliveryAddress() {
-  const {
-    register,
-    watch,
-    formState: { errors },
-  } = useFormContext();
+  const { watch } = useFormContext();
 
   const postal_code = watch("postal_code")
     .replace(/\D/g, "")
     .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
-
-  const messages: string[] = [];
-
-  Object.entries(errors).forEach((element) => {
-    messages.push(element[1]?.message as string);
-  });
 
   return (
     <DeliveryAddressContainer>
@@ -34,29 +25,29 @@ export function DeliveryAddress() {
       </CardHeader>
       <AddressContainer>
         <div>
-          <input
+          <InputGroup
             type="text"
             placeholder="CEP"
+            keyName="postal_code"
             value={postal_code}
-            {...register("postal_code")}
           />
-          {messages.join("\n")}
         </div>
         <div>
-          <input type="text" placeholder="Rua" {...register("street")} />
+          <InputGroup type="text" placeholder="Rua" keyName="street" />
         </div>
         <div>
-          <input type="text" placeholder="Número" {...register("number")} />
-          <input
+          <InputGroup type="text" placeholder="Número" keyName="number" />
+          <InputGroup
+            optional
             type="text"
             placeholder="Complemento"
-            {...register("complement")}
+            keyName="complement"
           />
         </div>
         <div>
-          <input type="text" placeholder="Bairro" {...register("district")} />
-          <input type="text" placeholder="Cidade" {...register("city")} />
-          <input type="text" placeholder="UF" {...register("uf")} />
+          <InputGroup type="text" placeholder="Bairro" keyName="district" />
+          <InputGroup type="text" placeholder="Cidade" keyName="city" />
+          <InputGroup type="text" placeholder="UF" keyName="uf" />
         </div>
       </AddressContainer>
     </DeliveryAddressContainer>
