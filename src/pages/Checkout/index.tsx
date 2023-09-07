@@ -30,7 +30,7 @@ const formValidationSchema = zod.object({
 type FormData = zod.infer<typeof formValidationSchema>;
 
 export function Checkout() {
-  const { resetCart } = useContext(CartContext);
+  const { cart, resetCart } = useContext(CartContext);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formValidationSchema),
@@ -62,19 +62,23 @@ export function Checkout() {
 
   return (
     <CheckoutContainer>
-      <CheckoutForm onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <h2>Complete seu pedido</h2>
-          <FormProvider {...form}>
-            <DeliveryAddress />
-            <Payment />
-          </FormProvider>
-        </div>
-        <div>
-          <h2>Cafés selecionados</h2>
-          <OrderSummary />
-        </div>
-      </CheckoutForm>
+      {cart.items.length ? (
+        <CheckoutForm onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <h2>Complete seu pedido</h2>
+            <FormProvider {...form}>
+              <DeliveryAddress />
+              <Payment />
+            </FormProvider>
+          </div>
+          <div>
+            <h2>Cafés selecionados</h2>
+            <OrderSummary />
+          </div>
+        </CheckoutForm>
+      ) : (
+        <p>Seu carrinho está vazio!</p>
+      )}
     </CheckoutContainer>
   );
 }
